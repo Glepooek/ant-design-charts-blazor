@@ -1,4 +1,4 @@
-﻿@page "/Heatmap_Chart"
+@page "/Heatmap_Chart"
 @inject NavigationManager NavigationManager
 @inject HttpClient HttpClient
 
@@ -6,7 +6,7 @@
     <TabPane Key="1">
         <Tab>示例1</Tab>
         <ChildContent>
-            <Heatmap @ref="chart1" TItem="BasementProdItem" Config="config1" />
+            <Heatmap @ref="chart1" Data="data1" Config="config1" />
         </ChildContent>
     </TabPane>
 </Tabs>
@@ -14,11 +14,12 @@
 @code{
 
     IChartComponent chart1;
+    BasementProdItem[] data1;
 
     protected override async Task OnInitializedAsync()
     {
-        var data1 = await DemoData.BasementProdAsync(NavigationManager, HttpClient);
-        chart1.SetData(data1);
+        data1 = await DemoData.BasementProdAsync(NavigationManager, HttpClient);
+        await chart1.ChangeData(data1);
 
         await base.OnInitializedAsync();
     }
@@ -27,19 +28,19 @@
 
     HeatmapConfig config1 = new HeatmapConfig()
     {
-        forceFit = false,
-        width = 650,
-        height = 500,
-        xField = "month_of_Year",
-        yField = "district",
-        colorField = "aqhi",
-        shapeType = "rect",
-        color = new string[] { "#174c83", "#7eb6d4", "#efefeb", "#efa759", "#9b4d16" },
-        meta = new
+        ForceFit = false,
+        Width = 650,
+        Height = 500,
+        XField = "month_of_Year",
+        YField = "district",
+        ColorField = "aqhi",
+        ShapeType = "rect",
+        Color = new string[] { "#174c83", "#7eb6d4", "#efefeb", "#efa759", "#9b4d16" },
+        Meta = new
         {
             Month_of_Year = new
             {
-                type = "cat",
+                Type = "cat",
             },
         },
     };
@@ -47,3 +48,4 @@
 
     #endregion 示例1
 }
+

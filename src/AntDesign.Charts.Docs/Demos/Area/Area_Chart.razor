@@ -1,4 +1,4 @@
-﻿@page "/Area_Chart"
+@page "/Area_Chart"
 @inject NavigationManager NavigationManager
 @inject HttpClient HttpClient
 
@@ -6,7 +6,7 @@
     <TabPane Key="1">
         <Tab>示例1</Tab>
         <ChildContent>
-            <Area @ref="chart1" TItem="FireworksSalesItem" Config="config1" />
+            <Area @ref="chart1" Data="data1" Config="config1" />
         </ChildContent>
     </TabPane>
 </Tabs>
@@ -14,11 +14,12 @@
 @code{
 
     IChartComponent chart1;
+    FireworksSalesItem[] data1;
 
     protected override async Task OnInitializedAsync()
     {
-        var data1 = await DemoData.FireworksSalesAsync(NavigationManager, HttpClient);
-        chart1.SetData(data1);
+        data1 = await DemoData.FireworksSalesAsync(NavigationManager, HttpClient);
+        await chart1.ChangeData(data1);
 
         await base.OnInitializedAsync();
     }
@@ -28,17 +29,17 @@
 
     AreaConfig config1 = new AreaConfig()
     {
-        title = new Charts.Title()
+        Title = new Charts.Title()
         {
-            visible = true,
-            text = "基础面积图",
+            Visible = true,
+            Text = "基础面积图",
         },
-        xField = "Date",
-        yField = "scales",
-        xAxis = new ValueCatTimeAxis()
+        XField = "Date",
+        YField = "scales",
+        XAxis = new ValueCatTimeAxis()
         {
-            type = "dateTime",
-            tickCount = 5,
+            Type = "dateTime",
+            TickCount = 5,
         },
     };
 
@@ -46,3 +47,6 @@
 
 
 }
+
+
+

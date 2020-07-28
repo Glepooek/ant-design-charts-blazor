@@ -1,4 +1,4 @@
-﻿@page "/Multiple_Line_Chart"
+@page "/Multiple_Line_Chart"
 @inject NavigationManager NavigationManager
 @inject HttpClient HttpClient
 
@@ -12,29 +12,31 @@
     <TabPane Key="2">
         <Tab>示例2</Tab>
         <ChildContent>
-            <Line @ref="line2" TItem="GDPItem" Config="config2" />
+            <Line @ref="chart2" Data="data2" Config="config2" />
         </ChildContent>
     </TabPane>
     <TabPane Key="3">
         <Tab>示例3</Tab>
         <ChildContent>
-            <Line @ref="line3" TItem="EmissionsItem" Config="config3" />
+            <Line @ref="chart3" Data="data3" Config="config3" />
         </ChildContent>
     </TabPane>
 </Tabs>
 
 @code{
 
-    IChartComponent line2;
-
-    IChartComponent line3;
+    IChartComponent chart2;
+    GDPItem[] data2;
+    IChartComponent chart3;
+    EmissionsItem[] data3;
 
     protected override async Task OnInitializedAsync()
     {
-        var data2 = await DemoData.GDPAsync(NavigationManager, HttpClient);
-        line2.SetData(data2);
-        var data3 = await DemoData.EmissionsAsync(NavigationManager, HttpClient);
-        line3.SetData(data3);
+        data2 = await DemoData.GDPAsync(NavigationManager, HttpClient);
+        await chart2.ChangeData(data2);
+
+        data3 = await DemoData.EmissionsAsync(NavigationManager, HttpClient);
+
         await base.OnInitializedAsync();
     }
 
@@ -271,32 +273,32 @@
 
     LineConfig config1 = new LineConfig()
     {
-        title = new Charts.Title()
+        Title = new Charts.Title()
         {
-            visible = true,
-            text = "多折线图",
+            Visible = true,
+            Text = "多折线图",
         },
-        description = new Description()
+        Description = new Description()
         {
-            visible = true,
-            text = "将数据按照某一字段进行分组，用于比对不同类型数据的趋势。",
+            Visible = true,
+            Text = "将数据按照某一字段进行分组，用于比对不同类型数据的趋势。",
         },
-        padding = "auto",
-        forceFit = true,
-        xField = "date",
-        yField = "value",
-        yAxis = new ValueAxis()
+        Padding = "auto",
+        ForceFit = true,
+        XField = "date",
+        YField = "value",
+        YAxis = new ValueAxis()
         {
-            label = new BaseAxisLabel()
+            Label = new BaseAxisLabel()
             {
                 // 数值格式化为千分位
             },
         },
-        legend = new Legend()
+        Legend = new Legend()
         {
-            position = "right-top",
+            Position = "right-top",
         },
-        seriesField = "type",
+        SeriesField = "type",
         @*responsive = true,*@
     };
 
@@ -308,51 +310,51 @@
 
     LineConfig config2 = new LineConfig()
     {
-        title = new Charts.Title()
+        Title = new Charts.Title()
         {
-            visible = true,
-            text = "2000 ~ 2018 年各国家 GDP 趋势对比",
+            Visible = true,
+            Text = "2000 ~ 2018 年各国家 GDP 趋势对比",
         },
-        description = new Description()
+        Description = new Description()
         {
-            visible = true,
-            text = "图形标签 (label) 位于折线尾部，用于标注整根折线，并有带有排名的含义在其中。",
+            Visible = true,
+            Text = "图形标签 (label) 位于折线尾部，用于标注整根折线，并有带有排名的含义在其中。",
         },
-        padding = "auto",//new[] { 20, 100, 30, 80 },
-        forceFit = true,
-        xField = "year",
-        yField = "gdp",
-        seriesField = "name",
-        xAxis = new ValueCatTimeAxis()
+        Padding = "auto",//new[] { 20, 100, 30, 80 },
+        ForceFit = true,
+        XField = "year",
+        YField = "gdp",
+        SeriesField = "name",
+        XAxis = new ValueCatTimeAxis()
         {
-            type = "dateTime",
-            label = new BaseAxisLabel()
+            Type = "dateTime",
+            Label = new BaseAxisLabel()
             {
-                visible = true,
-                autoHide = true,
+                Visible = true,
+                AutoHide = true,
             },
         },
-        yAxis = new ValueAxis()
+        YAxis = new ValueAxis()
         {
 
         },
-        legend = new Legend()
+        Legend = new Legend()
         {
-            visible = false,
+            Visible = false,
         },
-        label = new Label()
+        Label = new Label()
         {
-            visible = true,
-            type = "line",
+            Visible = true,
+            Type = "line",
         },
-        animation = new Animation()
+        Animation = new Animation()
         {
-            appear = new AnimationCfg()
+            Appear = new AnimationCfg()
             {
-                animation = "clipingWithData",
+                Animation = "clipingWithData",
             },
         },
-        smooth = true,
+        Smooth = true,
 
     };
 
@@ -362,23 +364,23 @@
 
     LineConfig config3 = new LineConfig()
     {
-        title = new Charts.Title()
+        Title = new Charts.Title()
         {
-            visible = true,
-            text = "The causes of CO2 emissions",
+            Visible = true,
+            Text = "The causes of CO2 emissions",
         },
-        padding = "auto",
-        forceFit = true,
-        xField = "year",
-        yField = "value",
-        seriesField = "category",
-        xAxis = new ValueCatTimeAxis()
+        Padding = "auto",
+        ForceFit = true,
+        XField = "year",
+        YField = "value",
+        SeriesField = "category",
+        XAxis = new ValueCatTimeAxis()
         {
-            type = "time",
+            Type = "time",
         },
-        yAxis = new ValueAxis()
+        YAxis = new ValueAxis()
         {
-            label = new BaseAxisLabel()
+            Label = new BaseAxisLabel()
             {
                 // 数值格式化为千分位
             },
@@ -389,3 +391,4 @@
     #endregion 示例2
 
 }
+
